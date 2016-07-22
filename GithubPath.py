@@ -42,7 +42,7 @@ class GithubPathCommand(sublime_plugin.TextCommand):
       sublime.message_dialog('No github remote found')
       return
 
-    sha = output_from_command('git', 'rev-parse', 'master').strip()
+    sha = output_from_command('git', 'rev-parse', 'master')
     selection = self.view.sel()[0]
     line_start = 'L' + str(self.view.rowcol(selection.begin())[0] + 1)
     line_end = 'L' + str(self.view.rowcol(selection.end())[0] + 1)
@@ -61,4 +61,4 @@ class GithubPathCommand(sublime_plugin.TextCommand):
     webbrowser.open(url)
 
 def output_from_command(*cmd):
-  return subprocess.check_output(cmd, stderr = subprocess.STDOUT).decode("utf-8")
+  return subprocess.check_output(cmd, stderr = subprocess.STDOUT).decode("utf-8").strip()
