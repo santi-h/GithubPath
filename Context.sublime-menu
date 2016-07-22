@@ -1,0 +1,7 @@
+[
+  {
+    "id": "GithubPath",
+    "caption": "Open in Github",
+    "command": "github_path"
+  }
+]

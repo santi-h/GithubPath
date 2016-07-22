@@ -8,6 +8,9 @@ import webbrowser
 class GithubPathCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     current_file = self.view.file_name()
+    if current_file is None:
+      return
+
     check_path = os.path.dirname(current_file)
     git_dir_path = None
     repo_file_path = [os.path.basename(current_file)]
