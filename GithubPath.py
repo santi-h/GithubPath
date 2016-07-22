@@ -29,7 +29,7 @@ class GithubPathCommand(sublime_plugin.TextCommand):
 
     repo_file_path = os.path.join(*repo_file_path)
 
-    remotes = output_from_command('git', 'remote', '-v')
+    remotes = output_from_command('git', '--git-dir', git_dir_path + '/.git', 'remote', '-v')
     print(remotes)
     match = re.search(r'github\.com(?::|\/)([\w\-]+)\/([\w\-]+)\.git \(fetch\)', remotes)
     owner = None
@@ -42,7 +42,7 @@ class GithubPathCommand(sublime_plugin.TextCommand):
       sublime.message_dialog('No github remote found')
       return
 
-    sha = output_from_command('git', 'rev-parse', 'master')
+    sha = output_from_command('git', '--git-dir', git_dir_path + '/.git', 'rev-parse', 'master')
     selection = self.view.sel()[0]
     line_start = 'L' + str(self.view.rowcol(selection.begin())[0] + 1)
     line_end = 'L' + str(self.view.rowcol(selection.end())[0] + 1)
