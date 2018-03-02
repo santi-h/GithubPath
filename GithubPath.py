@@ -41,38 +41,6 @@ class GithubPathCommand(sublime_plugin.TextCommand):
     sublime.set_clipboard(url)
     webbrowser.open(url)
 
-class GithubCommitCommand(sublime_plugin.TextCommand):
-  def run(self, edit):
-    current_file = self.view.file_name()
-    if current_file is None:
-      return
-
-    git_dir_path, repo_file_path = git_directories(current_file)
-
-    if git_dir_path is None:
-      sublime.message_dialog('Not a git repo')
-      return
-
-    owner, repo = owner_and_repo(git_dir_path)
-
-    if owner is None or repo is None:
-      sublime.message_dialog('No github remote found')
-      return
-
-    line_number = self.view.rowcol(self.view.sel()[0].begin())[0] + 1
-
-    command = ['git', 'blame', '--porcelain', '-L', '{0},{0}'.format(line_number), repo_file_path]
-
-    output = output_from_command(*command, cwd=git_dir_path)
-    sha = output.split('\n')[0].split()[0].strip()
-
-    url = "https://github.com/{owner}/{repo}/commit/{sha}".format(
-      owner = owner,
-      repo = repo,
-      sha = sha
-    )
-    webbrowser.open(url)
-
 def owner_and_repo(git_dir_path):
     remotes = output_from_command('git', 'remote', '-v', cwd = git_dir_path)
     match = re.search(r'github\.com(?::|\/)([\w\-]+)\/([\w\-]+)\.git \(fetch\)', remotes)
