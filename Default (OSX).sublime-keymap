@@ -1,0 +1,4 @@
+[
+  { "keys": ["super+shift+8"], "command": "github_path" },
+  { "keys": ["super+shift+7"], "command": "github_commit" }
+]
