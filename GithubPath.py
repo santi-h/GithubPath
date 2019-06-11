@@ -42,15 +42,15 @@ class GithubPathCommand(sublime_plugin.TextCommand):
     webbrowser.open(url)
 
 def owner_and_repo(git_dir_path):
-    remotes = output_from_command('git', 'remote', '-v', cwd = git_dir_path)
-    match = re.search(r'github\.com(?::|\/)([\w\-]+)\/([\w\-]+)\.git \(fetch\)', remotes)
-    owner = None
-    repo = None
-    if match is not None:
-      owner = str(match.group(1))
-      repo = str(match.group(2))
+  remotes = output_from_command('git', 'remote', '-v', cwd = git_dir_path)
+  match = re.search(r'github\.com(?::|\/)([\w\-]+)\/([\w\-]+)\.git \(fetch\)', remotes)
+  owner = None
+  repo = None
+  if match is not None:
+    owner = str(match.group(1))
+    repo = str(match.group(2))
 
-    return [owner, repo]
+  return [owner, repo]
 
 def git_directories(current_file):
   check_path = os.path.dirname(current_file)
